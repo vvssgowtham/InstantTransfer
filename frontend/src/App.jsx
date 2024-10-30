@@ -7,18 +7,18 @@ import {
 import { lazy, Suspense } from "react";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-// Lazy loading components
 const Signup = lazy(() => import("./pages/SignUp"));
 const Login = lazy(() => import("./pages/Login"));
 const SendMoney = lazy(() => import("./pages/SendMoney"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
+const LoadingOverlay = lazy(() => import("./components/Loading"));
 
 function App() {
   const token = sessionStorage.getItem("token");
 
   return (
     <Router>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingOverlay />}>
         <Routes>
           <Route
             path="/signup"
