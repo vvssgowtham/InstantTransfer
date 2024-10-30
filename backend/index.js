@@ -18,9 +18,6 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 
-app.get("/",(req,res)=>{
-  res.send("Hello");
-})
 app.use("/api/v1", router);
 
 app.listen(5000);
