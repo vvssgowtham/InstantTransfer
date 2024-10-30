@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import useFetchData from "../hooks/useFetchData";
 import { useNavigate } from "react-router-dom";
 import useFetchBalance from "../hooks/useFetchBalance";
+
+import LoadingOverlay from "../components/Loading";
 
 const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -10,36 +12,20 @@ const Dashboard = () => {
   const token = sessionStorage.getItem("token");
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(false);
+
   const userData = useFetchData();
   const availableBalance = useFetchBalance();
 
-  useEffect(() => {
-    const getAllUsers = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:5000/api/v1/user/get-users",
-          {
-            headers: {
-              authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        const allUsers = response.data;
-        const formattedUsers = allUsers.map((user) => ({
-          id: user._id,
-          name: user.firstName,
-        }));
-        setUsers(formattedUsers);
-      } catch (error) {
-        console.error("Error fetching all users:", error);
-      }
-    };
-    getAllUsers();
-  }, [token]);
-
   const fetchUsers = async (searchValue) => {
-    setUsers([]);
+    const trimmedSearchValue = searchValue.trimStart();
+
+    if (trimmedSearchValue === "") {
+      setUsers([]);
+      return;
+    }
     try {
+      setLoading(true);
       const response = await axios.get(
         `http://localhost:5000/api/v1/user/bulk?filter=${searchValue}`,
         {
@@ -54,7 +40,7 @@ const Dashboard = () => {
         if (data) {
           const formattedUsers = data.map((user) => ({
             id: user._id,
-            name: user.firstName,
+            name: user.firstName + " " + user.lastName,
           }));
           setUsers(formattedUsers);
         } else {
@@ -66,11 +52,19 @@ const Dashboard = () => {
     } catch (error) {
       console.error("Error fetching users:", error);
       alert("An error occurred while fetching users. Please try again.");
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("token");
+    navigate("/signin");
   };
 
   return (
     <div className="min-h-screen bg-gray-100 p-4">
+      {loading && <LoadingOverlay />}
       <div className="flex justify-between items-center p-4 bg-white shadow-sm">
         <h1 className="text-2xl font-bold">Payments App</h1>
         <div className="flex items-center space-x-2">
@@ -78,10 +72,18 @@ const Dashboard = () => {
             <>
               <span className="text-gray-600">Hello, {userData.firstName}</span>
               <div className="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-full">
-                <span className="font-bold">{userData.firstName.charAt(0)}</span>
+                <span className="font-bold">
+                  {userData.firstName.charAt(0)}
+                </span>
               </div>
             </>
           )}
+          <button
+            onClick={handleLogout}
+            className="bg-red-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-600 transition"
+          >
+            Logout
+          </button>
         </div>
       </div>
 

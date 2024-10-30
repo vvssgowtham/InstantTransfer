@@ -2,14 +2,17 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import LoadingOverlay from "../components/Loading";
 
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ userName: "", password: "" });
+  const [loading, setLoading] = useState(false);
 
   const handleSignIn = async (event) => {
     event.preventDefault();
     try {
+      setLoading(true);
       const response = await axios.post(
         "http://localhost:5000/api/v1/user/signin",
         formData
@@ -25,11 +28,14 @@ const Login = () => {
     } catch (error) {
       alert(error.response?.data?.message || "Signin failed");
       navigate("/signup");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-700">
+    <div className="flex items-center justify-center min-h-screen bg-gray-200">
+      {loading && <LoadingOverlay />}
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-md shadow-lg">
         <h2 className="text-3xl font-bold text-center">Sign In</h2>
         <p className="text-sm text-center text-gray-500">

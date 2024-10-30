@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+import LoadingOverlay from "../components/Loading";
+
 const SignUp = () => {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -9,6 +11,7 @@ const SignUp = () => {
     userName: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -21,24 +24,28 @@ const SignUp = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const response = await axios.post(
         "http://localhost:5000/api/v1/user/signup",
         formData
       );
       const data = response.data;
-      sessionStorage.setItem("token",data.token);
+      sessionStorage.setItem("token", data.token);
       if (response.status === 201) {
         alert(data.message);
         navigate("/");
       }
     } catch (error) {
       alert(error.message);
+    } finally {
+      setLoading(false);
     }
     setFormData({ firstName: "", lastName: "", userName: "", password: "" });
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-200">
+      {loading && <LoadingOverlay />}
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
         <h2 className="text-2xl font-bold text-center mb-4">Sign Up</h2>
         <p className="text-center text-gray-600 mb-6">
