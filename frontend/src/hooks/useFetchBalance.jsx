@@ -8,7 +8,7 @@ const useFetchBalance = () => {
     const getBalance = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/v1/account/balance",
+          "https://instanttransfer.onrender.com/api/v1/account/balance",
           {
             headers: {
               authorization: `Bearer ${token}`,

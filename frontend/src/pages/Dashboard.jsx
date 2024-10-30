@@ -27,7 +27,7 @@ const Dashboard = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `http://localhost:5000/api/v1/user/bulk?filter=${searchValue}`,
+        `https://instanttransfer.onrender.com/api/v1/user/bulk?filter=${searchValue}`,
         {
           headers: {
             authorization: `Bearer ${token}`,

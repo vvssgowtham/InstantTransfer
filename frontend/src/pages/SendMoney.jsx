@@ -22,7 +22,7 @@ const SendMoney = () => {
       setLoading(true);
       console.log(transferData);
       const response = await axios.post(
-        "http://localhost:5000/api/v1/account/transfer",
+        "https://instanttransfer.onrender.com/api/v1/account/transfer",
         transferData,
         {
           headers: {

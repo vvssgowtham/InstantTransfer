@@ -26,7 +26,7 @@ const SignUp = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "http://localhost:5000/api/v1/user/signup",
+        "https://instanttransfer.onrender.com/api/v1/user/signup",
         formData
       );
       const data = response.data;
