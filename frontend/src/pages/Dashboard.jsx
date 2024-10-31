@@ -9,7 +9,7 @@ import LoadingOverlay from "../components/Loading";
 const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [users, setUsers] = useState([]);
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
@@ -58,7 +58,7 @@ const Dashboard = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     navigate("/signin");
   };
 

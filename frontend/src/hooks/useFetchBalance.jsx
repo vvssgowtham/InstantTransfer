@@ -3,7 +3,7 @@ import axios from "axios";
 
 const useFetchBalance = () => {
   const [balance, setBalance] = useState(0);
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   useEffect(() => {
     const getBalance = async () => {
       try {
