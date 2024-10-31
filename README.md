@@ -3,8 +3,6 @@
 
 Instant Transfer is a full-stack application that allows users to transfer money between accounts, view their account balance, and search for other users to initiate transactions. Built with **ReactJS**, **ExpressJS**, **MongoDB**, and **NodeJS**, it provides a secure, user-friendly interface for financial transactions. 
 
-![Instant Transfer](path-to-screenshot.png)
-
 ## Table of Contents
 - [Features](#features)
 - [Tech Stack](#tech-stack)
