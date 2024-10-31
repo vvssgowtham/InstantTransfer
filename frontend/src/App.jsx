@@ -14,7 +14,7 @@ const Dashboard = lazy(() => import("./pages/Dashboard"));
 const LoadingOverlay = lazy(() => import("./components/Loading"));
 
 function App() {
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
   return (
     <Router>

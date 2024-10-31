@@ -3,7 +3,7 @@ import axios from "axios";
 
 const useFetchData = () => {
   const [userData, setUserData] = useState(null);
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const getUserData = async () => {

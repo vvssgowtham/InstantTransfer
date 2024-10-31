@@ -19,7 +19,7 @@ const Login = () => {
       );
       const data = response.data;
 
-      sessionStorage.setItem("token", data.token);
+      localStorage.setItem("token", data.token);
 
       if (response.status === 200) {
         alert(data.message);

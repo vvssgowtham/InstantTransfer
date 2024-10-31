@@ -30,7 +30,7 @@ const SignUp = () => {
         formData
       );
       const data = response.data;
-      sessionStorage.setItem("token", data.token);
+      localStorage.setItem("token", data.token);
       if (response.status === 201) {
         alert(data.message);
         navigate("/");

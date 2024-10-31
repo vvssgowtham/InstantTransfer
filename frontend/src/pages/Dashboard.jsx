@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import useFetchData from "../hooks/useFetchData";
 import { useNavigate } from "react-router-dom";
@@ -9,30 +9,13 @@ import LoadingOverlay from "../components/Loading";
 const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [users, setUsers] = useState([]);
-  const [userCount, setUserCount] = useState(0);
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
 
   const userData = useFetchData();
   const availableBalance = useFetchBalance();
-
-  useEffect(() => {
-    const fetchUserCount = async () => {
-      try {
-        const response = await axios.get(
-          "https://instanttransfer.onrender.com/api/v1/hit-count"
-        );
-        if (response.status === 200) {
-          setUserCount(response.data.hits);
-        }
-      } catch (error) {
-        console.error("Error fetching user count:", error);
-      }
-    };
-    fetchUserCount();
-  }, []);
 
   const fetchUsers = async (searchValue) => {
     const trimmedSearchValue = searchValue.trimStart();
@@ -75,7 +58,7 @@ const Dashboard = () => {
   };
 
   const handleLogout = () => {
-    sessionStorage.removeItem("token");
+    localStorage.removeItem("token");
     navigate("/signin");
   };
 
@@ -102,15 +85,6 @@ const Dashboard = () => {
             Logout
           </button>
         </div>
-      </div>
-      <div className="mt-6 bg-white p-4 rounded-lg shadow-md text-center">
-        <h2 className="text-lg font-semibold text-gray-700">
-          User Visit Count
-        </h2>
-        <p className="text-3xl font-bold text-indigo-500">{userCount}</p>
-        <p className="text-sm text-gray-500">
-          Total users who accessed this application
-        </p>
       </div>
 
       <div className="mt-6 bg-white p-4 rounded-lg shadow-md">

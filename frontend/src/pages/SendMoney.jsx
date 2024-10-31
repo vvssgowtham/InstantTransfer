@@ -14,7 +14,7 @@ const SendMoney = () => {
     amount: null,
   });
   const navigate = useNavigate();
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
   const handleTransfer = async (e) => {
     e.preventDefault();
