@@ -10,7 +10,7 @@ connectDB();
 
 app.use(
   cors({
-    origin: "https://instant-transfer-virid.vercel.app",
+    origin: "https://instant-transfer.netlify.app",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
