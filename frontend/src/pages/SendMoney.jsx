@@ -36,7 +36,7 @@ const SendMoney = () => {
         navigate("/");
       }
     } catch (error) {
-      alert(error.message);
+      alert(error.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -60,7 +60,7 @@ const SendMoney = () => {
               htmlFor="amount"
               className="block text-sm font-medium text-gray-700"
             >
-              Amount (in Rs)
+              Amount (in $)
             </label>
             <input
               type="number"
