@@ -11,36 +11,40 @@ const SendMoney = () => {
   const name = searchParams.get("name");
   const [transferData, setTransferData] = useState({
     transferTo: idValue,
-    amount: null,
+    amount: "",
   });
   const navigate = useNavigate();
   const token = sessionStorage.getItem("token");
 
   const handleTransfer = async (e) => {
     e.preventDefault();
+    if (!transferData.amount || Number(transferData.amount) <= 0) {
+      alert("Please enter a valid amount");
+      return;
+    }
     try {
       setLoading(true);
       console.log(transferData);
       const response = await axios.post(
         "https://instanttransfer.onrender.com/api/v1/account/transfer",
-        transferData,
+        {
+          ...transferData,
+          amount: Number(transferData.amount),
+        },
         {
           headers: {
             authorization: `Bearer ${token}`,
           },
         }
       );
-      const data = response.data;
-      if (response.status === 200) {
-        alert(data.message);
-        navigate("/");
-      }
+      alert(response.data.message);
+      navigate("/");
     } catch (error) {
-      alert(error.response.data.message);
+      alert(error.response?.data?.message || "Transfer failed");
     } finally {
       setLoading(false);
     }
-    setTransferData({ transferTo: null, amount: null });
+    setTransferData({ transferTo: idValue, amount: "" });
   };
 
   return (
